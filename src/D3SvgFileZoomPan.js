@@ -43,15 +43,20 @@ class D3SvgFileEngine {
   }
 
   processSvgFile(props, svgFrame) {
-    d3.xml(props.svgPath, (error, svgFile) => {
-      if (error) {
-        console.warn(error);
-        return;
-      }
-      if (svgFile) {
-        this.attachSvgFile(svgFile, svgFrame, props.resize);
-      }
-    });
+    if (props.svg) {
+      let doc = new DOMParser().parseFromString(props.svg, 'image/svg+xml');
+      svgFrame.node().appendChild(doc.documentElement);
+    } else {
+      d3.xml(props.svgPath, (error, svgFile) => {
+        if (error) {
+          console.warn(error);
+          return;
+        }
+        if (svgFile) {
+          this.attachSvgFile(svgFile, svgFrame, props.resize);
+        }
+      });
+    }
   }
 
   attachSvgFile(svgFile, svgFrame, resize) {
