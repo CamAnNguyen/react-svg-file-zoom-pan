@@ -30,9 +30,11 @@ class SvgWrapper {
       this.renderStr(props, svg);
     } else {
       const path = svg || svgPath;
-      d3.xml(path)
-        .then(file => this.renderFile(props, file))
-        .catch(err => console.log(err)); // eslint-disable-line
+      if (path) {
+        d3.xml(path)
+          .then(file => this.renderFile(props, file))
+          .catch(err => console.log(err)); // eslint-disable-line
+      }
     }
   }
 
